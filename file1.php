@@ -51,7 +51,13 @@
                 $args = array('posts_per_page' => $postcount, 'offset' => $offset);
                 break;
         }
-        
+      
+
+    /***######QUERY For display the last 24 hours POSTS#####***/
+
+     'date_query' => array(
+                             'after' => '24 hours ago'
+                             )
         
         
     /***********************************************************
