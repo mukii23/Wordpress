@@ -32,11 +32,19 @@
             case 'daily':
                 $args = array('posts_per_page' => $postcount, 'offset' => $offset,
                                'post_status' => 'publish',
+                         /**QUERY FOR ONE WEEK***/
                                'date_query' => array(
                                   'year' => date( 'Y', current_time( 'timestamp' ) ),
                                    'month' => date( 'n', current_time( 'timestamp' ) ),
                                    'day' => date( 'j', current_time( 'timestamp' ) )
-                              ));
+                                  )
+                         /**QUERY FOR LAST 7 DAYS***/
+                               'date_query' => array(
+                                   'after' => '1 week ago',
+                              /***OR***/
+                                   'after' => date('Y-m-d', strtotime('-7 days')),
+                                    )
+                              );
                 break;
             case 'weekly':
                 $args = array('posts_per_page' => $postcount, 'offset' => $offset, 
