@@ -1,3 +1,3 @@
 # Wordpress
-All wordpress issues solution is here.
+All wordpress solutions are here.
 
