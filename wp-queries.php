@@ -19,11 +19,40 @@
     }
     
     add_filter('wp_insert_post_data', 'append_slug', 10);
+
+
+/*****************************
+  ****Change POST 'slug' name from URL
+*****************************/
     
+
+  function remove_slug( $post_link, $post, $leavename ) {
+
+      if ( 'mukii' != $post->post_type || 'publish' != $post->post_status ) {
+        return $post_link;
+      }
+
+      $post_link = str_replace( '/' . $post->post_type . '/', '/', $post_link );
+
+      return $post_link;
+  }
+  add_filter( 'post_type_link', 'remove_slug', 10, 3 );
+  function process_request( $query ) {
+
+      if ( ! $query->is_main_query() || 2 != count( $query->query ) || ! isset( $query->query['page'] ) ) {
+        return;
+      }
+
+      if ( ! empty( $query->query['name'] ) ) {
+        $query->set( 'post_type', array( 'post', 'page', 'mukii' ) );
+      }
+  }
+  add_action( 'pre_get_posts', 'process_request' );
+
     
-    /*****************************
-     ****Display Publish Posts based on 'Latest', 'Daily', 'Weekly'
-     *****************************/
+/*****************************
+  ****Display Publish Posts based on 'Latest', 'Daily', 'Weekly'
+*****************************/
     
     switch($radiovalue){
             case 'recent':
@@ -68,33 +97,6 @@
                              )
         
         
-    /***********************************************************
-     ****Add Footer Section Settings in  Theme Customizer*******
-     ***********************************************************/
-    
-    function add_custom_settings($wp_customize){
-        
-        $wp_customize->add_section( 'footer_section' , array(
-            'title'      => 'Footer Section',
-            'priority'   => 60,
-        ) );
-        $wp_customize->add_setting( 'footer_text' , array(
-            
-//            'default' => 'Copyright © 2018  NewsClues. All Rights Reserved.',
-            'transport' => 'refresh',
-        ));
-        $wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'footer_text', array(
-            'type' => 'textarea',
-            'label'        => 'Input text for footer here.',
-            'section'    => 'footer_section',
-            'settings'   => 'footer_text',
-        ) ) );
-        
-        
-    }
-    
-    add_action( 'customize_register', array($this, 'add_custom_settings' ) );
-
 
  /*****************************
   **** POST Pagination
