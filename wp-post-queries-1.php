@@ -34,7 +34,7 @@ function featured_meta_callback($post){
                 <?php _e( 'Make this post featured.' )?>
           </label>
        </div>
-    </p>
+</p>
 
     <?php
 }
