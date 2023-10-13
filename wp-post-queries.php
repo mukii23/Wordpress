@@ -159,3 +159,18 @@ $query_result = new WP_Query($args);
             'add_fragment' => '',
         ) );
     ?>
+
+        
+
+ /*****************************
+  **** Read More at the end of text
+  *****************************/
+
+$string = strip_tags(get_field('content'));
+$readmore_limit = 200;
+if (strlen($string) > $readmore_limit) {
+   $stringCut = substr($string, 0, $readmore_limit);
+   $endPoint = strrpos($stringCut, ' ');
+   $string = $endPoint? substr($stringCut, 0, $endPoint):substr($stringCut, 0);
+   $string .= "... <u><a href='".get_the_permalink()."' class='font_change'>Read More</a></u>";
+}
